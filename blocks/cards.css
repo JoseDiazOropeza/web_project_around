@@ -30,7 +30,7 @@
   width: 280px;
 }
 
-.card__image {
+.cards__image {
   height: 282px;
   object-fit: cover;
   width: 100%;
@@ -42,13 +42,13 @@
   outline: none;
 }
 
-.card__info {
+.cards__info {
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
-.card__title {
+.cards__title {
   font-family: Inter;
   font-weight: 900;
   max-width: 200px;
@@ -57,17 +57,17 @@
   white-space: nowrap;
 }
 
-.card__like-btn {
+.cards__like-btn {
   background-image: url(../images/Corazon-D.svg);
   cursor: pointer;
   height: 19px;
   width: 21px;
 }
 
-.card__like-btn:hover {
+.cards__like-btn:hover {
   opacity: 0.6;
 }
 
-.card__like-btn--active {
+.cards__like-btn--active {
   background-image: url(../images/Corazon-A.svg);
 }
