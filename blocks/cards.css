@@ -1,0 +1,73 @@
+.cards {
+  margin: 40px auto 0;
+  max-width: 880px;
+  min-width: 320px;
+}
+
+@media only screen and (max-width: 908px) {
+  .cards {
+    margin: 40px 20px 0;
+  }
+}
+
+.cards__list {
+  align-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 16px;
+  column-gap: 20px;
+  padding: 0;
+}
+
+.cards__card {
+  background-color: #fff;
+  border-radius: 10px;
+  object-fit: cover;
+  overflow: hidden;
+  position: relative;
+  width: 280px;
+}
+
+.card__image {
+  height: 282px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.button {
+  background-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.card__info {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.card__title {
+  font-family: Inter;
+  font-weight: 900;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__like-btn {
+  background-image: url(../images/Corazon-D.svg);
+  cursor: pointer;
+  height: 19px;
+  width: 21px;
+}
+
+.card__like-btn:hover {
+  opacity: 0.6;
+}
+
+.card__like-btn--active {
+  background-image: url(../images/Corazon-A.svg);
+}
