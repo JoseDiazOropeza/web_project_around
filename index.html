@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="autor" content="Jose Diaz Oropeza" />
+    <meta name="author" content="Jose Diaz Oropeza" />
     <title>Alrededor de los EE.UU.</title>
     <link rel="stylesheet" href="./pages/index.css" />
     <script defer src="./scripts/index.js"></script>
@@ -26,26 +26,35 @@
         />
         <div class="profile__text-container">
           <h1 class="profile__name">Jose Diaz Oropeza</h1>
-          <button class="button profile__edit-btn" type="button"></button>
+          <button
+            class="button profile__edit-btn"
+            type="button"
+            aria-label="Editar perfil"
+            type="button"
+          ></button>
           <p class="profile__role">Web Developer</p>
         </div>
-        <button class="button profile__add-btn" type="button"></button>
+        <button
+          class="button profile__add-btn"
+          aria-label="Agregar tarjeta"
+          type="button"
+        ></button>
       </section>
 
-      <!-- Seccion de Popup -->
-      <div class="popup popup_hidden">
-        <div class="popup__window">
-          <button class="popup__exit-btn" type="reset" aria-label="">
+      <!-- Seccion de Popup Perfil -->
+      <div class="popup-profile popup_hidden">
+        <div class="popup-profile__window">
+          <button class="popup-profile__exit-btn" type="reset" aria-label="">
             <img
-              class="popup__exit-icon"
+              class="popup-profile__exit-icon"
               src="images/Close-Icon.svg"
               alt="exit icon button"
             />
           </button>
-          <form class="popup__form" name="edit__form">
-            <h2 class="popup__form-header">Editar perfil</h2>
+          <form class="popup-profile__form" name="edit__form">
+            <h2 class="popup-profile__form-header">Editar perfil</h2>
             <input
-              class="popup__form-input popup__form-input-name"
+              class="popup-profile__form-input popup-profile__form-input-name"
               placeholder="Nombre"
               name="form__name"
               value="Jose Diaz Oropeza"
@@ -55,7 +64,7 @@
             />
 
             <input
-              class="popup__form-input popup__form-input-about"
+              class="popup-profile__form-input popup-profile__form-input-about"
               placeholder="Acerca de mí"
               name="form__role"
               value="Web Developer"
@@ -64,7 +73,44 @@
               minlength="2"
             />
 
-            <button class="popup__form-submit-btn" type="submit">
+            <button class="popup-profile__form-submit-btn" type="submit">
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Seccion de Popup Tarjetas -->
+      <div class="popup-card popup_hidden">
+        <div class="popup-card__window">
+          <button class="popup-card__exit-btn" type="reset" aria-label="">
+            <img
+              class="popup-card__exit-icon"
+              src="images/Close-Icon.svg"
+              alt="exit icon button"
+            />
+          </button>
+          <form class="popup-card__form" name="edit__form">
+            <h2 class="popup-card__form-header">Nuevo Lugar</h2>
+            <input
+              class="popup-card__form-input popup-card__form-input-place"
+              placeholder="Título"
+              name="form__place"
+              value=""
+              required=""
+              minlength="2"
+            />
+
+            <input
+              class="popup-card__form-input popup-card__form-input-url"
+              placeholder="Enlace a la imagen"
+              name="form__url"
+              value=""
+              required=""
+              minlength="2"
+            />
+
+            <button class="popup-card__form-submit-btn" type="submit">
               Guardar
             </button>
           </form>
@@ -74,149 +120,31 @@
       <!-- Seccion de Tarjetas -->
       <section class="cards">
         <ul class="cards__list">
-          <!-- Primera Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Grand Canyon National Park, United States.jpg"
-              alt="View of Grand Canyon National Park, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">
-                Grand Canyon National Park, United States
-              </h2>
-              <button class="button cards__like-btn" type="button"></button>
-            </div>
-          </li>
-
-          <!-- Segunda Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Joshua Tree National Park, Indio, United States.jpg"
-              alt="View of Joshua Tree National Park, Indio, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">
-                Joshua Tree National Park, Indio, United States
-              </h2>
-              <div class="cards__likesContainer">
+          <!-- Plantilla de Tarjeta -->
+          <template id="cards__template">
+            <li class="cards__card">
+              <img class="cards__image" />
+              <button class="button cards__trash-btn" type="button"></button>
+              <div class="cards__info">
+                <h2 class="cards__title"></h2>
                 <button class="button cards__like-btn" type="button"></button>
               </div>
-            </div>
-          </li>
 
-          <!-- Tercera Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Lake Union, Seattle, WA, USA.jpg"
-              alt="View of Lake Union, Seattle, WA, USA"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">Lake Union, Seattle, WA, USA</h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
+              <div class="cards__window popup_hidden">
+                <figure class="cards__window-container">
+                  <img class="cards__window-img" src="" alt="" />
+                  <figcaption class="cards__window-caption"></figcaption>
+                  <button class="cards__exit-btn" type="reset" aria-label="">
+                    <img
+                      class="popup-card__exit-icon"
+                      src="./images/Close-Icon.svg"
+                      alt="exit icon button"
+                    />
+                  </button>
+                </figure>
               </div>
-            </div>
-          </li>
-
-          <!-- Cuarta Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Maroon Bells, United States.jpg"
-              alt="View of Maroon Bells, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">Maroon Bells, United States</h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- Quinta Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Monument Valley Navajo Tribal Park, Oljato-Monument Valley, United States.jpg"
-              alt="View of Monument Valley Navajo Tribal Park, Oljato-Monument Valley, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">
-                Monument Valley Navajo Tribal Park, Oljato-Monument Valley,
-                United States
-              </h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- Sexta Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Oxbow Bend, Grand Tetons National Park, Jackson, United States.jpg"
-              alt="View Oxbow Bend, Grand Tetons National Park, Jackson, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">
-                Oxbow Bend, Grand Tetons National Park, Jackson, United States
-              </h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- Septima Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Sequoia National Park, United States.jpg"
-              alt="View of Sequoia National Park, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">Sequoia National Park, United States</h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- Octava Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Yellowstone National Park, United States.jpg"
-              alt="View of Yellowstone National Park, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">
-                Yellowstone National Park, United States
-              </h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
-
-          <!-- Novena Tarjeta -->
-          <li class="cards__card">
-            <img
-              src="./images/_Yosemite Valley, United States.jpg"
-              alt="View of Yosemite Valley, United States"
-              class="cards__image"
-            />
-            <div class="cards__info">
-              <h2 class="cards__title">Yosemite Valley, United States</h2>
-              <div class="cards__likesContainer">
-                <button class="button cards__like-btn" type="button"></button>
-              </div>
-            </div>
-          </li>
+            </li>
+          </template>
         </ul>
       </section>
 
