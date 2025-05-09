@@ -1,6 +1,8 @@
 "use strict";
 
-//Variables
+//==========================================================================
+// SECCIÓN DE VARIABLES GLOBALES Y TARJETAS INICIALES
+// ==========================================================================
 const initialCards = [
   {
     name: "Grand Canyon National Park, AZ, USA",
@@ -27,87 +29,173 @@ const initialCards = [
     link: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
   },
 ];
+
+// --- Selección de Elementos del DOM para el Popup de Perfil ---
 const popupProfile = document.querySelector(".popup-profile");
 const formProfileElement = document.querySelector(".popup-profile__form");
 const btnProfileOpenPopup = document.querySelector(".profile__edit-btn");
 const btnProfileClosePopup = document.querySelector(".popup-profile__exit-btn");
+const nameInput = formProfileElement.querySelector(
+  ".popup-profile__form-input-name"
+);
+const jobInput = formProfileElement.querySelector(
+  ".popup-profile__form-input-about"
+);
 
+// --- Selección de Elementos del DOM para el Popup de Añadir Tarjeta ---
 const popupCard = document.querySelector(".popup-card");
 const formCardElement = document.querySelector(".popup-card__form");
 const btnCardOpenPopup = document.querySelector(".profile__add-btn");
 const btnCardClosePopup = document.querySelector(".popup-card__exit-btn");
+const placeInput = formCardElement.querySelector(
+  ".popup-card__form-input-place"
+);
+const urlInput = formCardElement.querySelector(".popup-card__form-input-url");
 
 const cardContainer = document.querySelector(".cards__list");
 
-//Add Event Listeners
-btnProfileOpenPopup.addEventListener("click", () => openPopup(popupProfile));
+//==========================================================================
+// SECCIÓN DE ASIGNACIÓN DE EVENT LISTENERS
+//==========================================================================
+
+// --- Event Listeners para el Popup de Perfil ---
+btnProfileOpenPopup.addEventListener("click", () => {
+  nameInput.value = document.querySelector(".profile__name").textContent;
+  jobInput.value = document.querySelector(".profile__role").textContent;
+  openPopup(popupProfile);
+});
 btnProfileClosePopup.addEventListener("click", () => closePopup(popupProfile));
-btnCardOpenPopup.addEventListener("click", () => openPopup(popupCard));
+
+// --- Event Listeners para el Popup de Añadir Tarjeta ---
+btnCardOpenPopup.addEventListener("click", () => {
+  formCardElement.reset();
+  openPopup(popupCard);
+});
 btnCardClosePopup.addEventListener("click", () => closePopup(popupCard));
 
+// Configuración de validación reutilizable
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible"
+};
+
+// --- Event Listeners para el envío de Formularios ---
 formProfileElement.addEventListener("submit", handleProfileFormSubmit);
 formCardElement.addEventListener("submit", handleCardFormSubmit);
 
+// --- Event Listener Global para la tecla "Escape" ---
+// --- Event Listener Global para la tecla "Escape" ---
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    if (!popupProfile.classList.contains("popup_hidden")) {
-      closePopup(popupProfile);
-    }
-    if (!popupCard.classList.contains("popup_hidden")) {
-      closePopup(popupCard);
+    // Selecciona cualquier popup abierto (perfil, tarjeta o imagen)
+    const openedPopup = document.querySelector(
+      ".popup:not(.popup_hidden), .popup-profile:not(.popup_hidden), .popup-card:not(.popup_hidden), .cards__window:not(.popup_hidden)"
+    );
+    if (openedPopup) {
+      closePopup(openedPopup);
     }
   }
 });
 
-//Funciones
+// --- Inicializa la validación modular para todos los formularios ---
+enableValidation(validationConfig);
+
+
+//==========================================================================
+// SECCIÓN DE DEFINICIÓN DE FUNCIONES
+// =========================================================================
+
+// --- Abre un elemento popup ---
 function openPopup(popupTarget) {
   popupTarget.classList.remove("popup_hidden");
+  popupTarget.addEventListener("click", handleClickOutside);
+
+  const formInside = popupTarget.querySelector("form");
+  if (formInside) {
+    toggleSubmitButtonState(formInside);
+  }
 }
 
+// --- Cierra un elemento popup ---
 function closePopup(popupTarget) {
   popupTarget.classList.add("popup_hidden");
+  popupTarget.removeEventListener("click", handleClickOutside);
+  // Si tiene formulario, limpia los errores
+  const formInside = popupTarget.querySelector("form");
+  if (formInside) {
+    window.clearFormErrors(formInside, validationConfig);
+  }
 }
 
+// --- Cierra un elemento popup si se hace click afuera de él ---
+function handleClickOutside(event) {
+  if (event.target === event.currentTarget) {
+    closePopup(event.currentTarget);
+  }
+}
+
+// --- Modifica el estado de Like ---
 function like(target) {
   target.classList.toggle("cards__like-btn--active");
 }
 
+// --- Elimina tarjeta ---
 function trash(target) {
   target.closest(".cards__card").remove();
 }
 
+// --- Opera el boton submit de Editar perfil ---
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  const nameInput = document.querySelector(".popup-profile__form-input-name");
-  const jobInput = document.querySelector(".popup-profile__form-input-about");
 
-  const nameDOM = document.querySelector(".profile__name");
-  const jobDOM = document.querySelector(".profile__role");
+  if (formProfileElement.checkValidity()) {
+    const nameDOM = document.querySelector(".profile__name");
+    const jobDOM = document.querySelector(".profile__role");
 
-  nameDOM.textContent = nameInput.value;
-  jobDOM.textContent = jobInput.value;
+    nameDOM.textContent = nameInput.value;
+    jobDOM.textContent = jobInput.value;
 
-  closePopup(popupProfile);
+    closePopup(popupProfile);
+  }
 }
 
+// --- Opera el boton submit de Nuevo Lugar ---
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  const placeInput = document.querySelector(".popup-card__form-input-place");
-  const urlInput = document.querySelector(".popup-card__form-input-url");
 
-  addCard(placeInput.value, urlInput.value);
-
-  placeInput.value = "";
-  urlInput.value = "";
-
-  closePopup(popupCard);
+  if (formCardElement.checkValidity()) {
+    addCard(placeInput.value, urlInput.value);
+    formCardElement.reset();
+    closePopup(popupCard);
+  }
 }
 
+// --- Añade nueva tarjeta al DOM ---
 function addCard(cardPlace, cardImage) {
   const cardTemplate = document.querySelector("#cards__template").content;
   const cardElement = cardTemplate
     .querySelector(".cards__card")
     .cloneNode(true);
+
+  const cardImgElement = cardElement.querySelector(".cards__image");
+  const cardTitleElement = cardElement.querySelector(".cards__title");
+  const cardWindowImgElement = cardElement.querySelector(".cards__window-img");
+  const cardWindowCaptionElement = cardElement.querySelector(
+    ".cards__window-caption"
+  );
+
+  cardTitleElement.textContent = cardPlace;
+  cardWindowCaptionElement.textContent = cardPlace;
+
+  cardImgElement.src = cardImage;
+  cardImgElement.alt = `Imagen de ${cardPlace}`;
+
+  cardWindowImgElement.src = cardImage;
+  cardWindowImgElement.alt = `Imagen de ${cardPlace}`;
 
   const btnLike = cardElement.querySelector(".cards__like-btn");
   btnLike.addEventListener("click", (e) => {
@@ -119,51 +207,27 @@ function addCard(cardPlace, cardImage) {
     trash(e.currentTarget);
   });
 
-  const btnOpen = cardElement.querySelector(".cards__image");
-  btnOpen.addEventListener("click", (e) => {
-    const cardWindow = cardElement.querySelector(".cards__window");
+  const cardWindow = cardElement.querySelector(".cards__window");
+
+  cardImgElement.addEventListener("click", () => {
     openPopup(cardWindow);
   });
 
-  const btnClose = cardElement.querySelector(".cards__exit-btn");
-  btnClose.addEventListener("click", (e) => {
-    closePopup(e.currentTarget.closest(".cards__window"));
+  const btnCloseImagePopup = cardElement.querySelector(".cards__exit-btn");
+  btnCloseImagePopup.addEventListener("click", () => {
+    closePopup(cardWindow);
   });
-
-  const cardWindow = cardElement.querySelector(".cards__window");
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closePopup(cardWindow);
-    }
-  });
-
-  //Experimento cerrar al dar click fuera de la imagen:
-  // cardWindow.addEventListener("click", (e) => {
-  //   if (e.target === cardWindow) {
-  //     closePopup(cardWindow);
-  //   }
-  // });
-
-  cardElement.querySelector(".cards__title").textContent = cardPlace;
-  cardElement.querySelector(".cards__window-caption").textContent = cardPlace;
-
-  cardElement.querySelector(".cards__image").setAttribute("src", cardImage);
-  cardElement
-    .querySelector(".cards__image")
-    .setAttribute("alt", `Imagen de ${cardPlace}`);
-
-  cardElement
-    .querySelector(".cards__window-img")
-    .setAttribute("src", cardImage);
-
-  cardElement
-    .querySelector(".cards__window-img")
-    .setAttribute("alt", `Imagen de ${cardPlace}`);
 
   cardContainer.prepend(cardElement);
 }
 
-//Ejecución Inicial
+//==========================================================================
+// SECCIÓN DE INICIACIÓN DEL PROGRAMA
+// ==========================================================================
+
+// --- Ejecución Inicial ---
 initialCards.forEach((card) => {
   addCard(card.name, card.link);
 });
+
+
