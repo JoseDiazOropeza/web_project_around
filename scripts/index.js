@@ -88,7 +88,6 @@ formProfileElement.addEventListener("submit", handleProfileFormSubmit);
 formCardElement.addEventListener("submit", handleCardFormSubmit);
 
 // --- Event Listener Global para la tecla "Escape" ---
-// --- Event Listener Global para la tecla "Escape" ---
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     // Selecciona cualquier popup abierto (perfil, tarjeta o imagen)
@@ -102,41 +101,15 @@ document.addEventListener("keydown", (e) => {
 });
 
 // --- Inicializa la validación modular para todos los formularios ---
-enableValidation(validationConfig);
+const profileValidator = new FormValidator(validationConfig, formProfileElement);
+profileValidator.enableValidation();
+const cardValidator = new FormValidator(validationConfig, formCardElement);
+cardValidator.enableValidation();
 
 
 //==========================================================================
 // SECCIÓN DE DEFINICIÓN DE FUNCIONES
 // =========================================================================
-
-// --- Abre un elemento popup ---
-function openPopup(popupTarget) {
-  popupTarget.classList.remove("popup_hidden");
-  popupTarget.addEventListener("click", handleClickOutside);
-
-  const formInside = popupTarget.querySelector("form");
-  if (formInside) {
-    toggleSubmitButtonState(formInside);
-  }
-}
-
-// --- Cierra un elemento popup ---
-function closePopup(popupTarget) {
-  popupTarget.classList.add("popup_hidden");
-  popupTarget.removeEventListener("click", handleClickOutside);
-  // Si tiene formulario, limpia los errores
-  const formInside = popupTarget.querySelector("form");
-  if (formInside) {
-    window.clearFormErrors(formInside, validationConfig);
-  }
-}
-
-// --- Cierra un elemento popup si se hace click afuera de él ---
-function handleClickOutside(event) {
-  if (event.target === event.currentTarget) {
-    closePopup(event.currentTarget);
-  }
-}
 
 // --- Modifica el estado de Like ---
 function like(target) {
@@ -174,51 +147,14 @@ function handleCardFormSubmit(evt) {
   }
 }
 
-// --- Añade nueva tarjeta al DOM ---
+import Card from './card.js';
+import FormValidator from './formValidator.js';
+import { openPopup, closePopup, handleClickOutside, clearFormErrors } from './utils.js';
+
+// --- Añade nueva tarjeta al DOM usando la clase Card ---
 function addCard(cardPlace, cardImage) {
-  const cardTemplate = document.querySelector("#cards__template").content;
-  const cardElement = cardTemplate
-    .querySelector(".cards__card")
-    .cloneNode(true);
-
-  const cardImgElement = cardElement.querySelector(".cards__image");
-  const cardTitleElement = cardElement.querySelector(".cards__title");
-  const cardWindowImgElement = cardElement.querySelector(".cards__window-img");
-  const cardWindowCaptionElement = cardElement.querySelector(
-    ".cards__window-caption"
-  );
-
-  cardTitleElement.textContent = cardPlace;
-  cardWindowCaptionElement.textContent = cardPlace;
-
-  cardImgElement.src = cardImage;
-  cardImgElement.alt = `Imagen de ${cardPlace}`;
-
-  cardWindowImgElement.src = cardImage;
-  cardWindowImgElement.alt = `Imagen de ${cardPlace}`;
-
-  const btnLike = cardElement.querySelector(".cards__like-btn");
-  btnLike.addEventListener("click", (e) => {
-    like(e.currentTarget);
-  });
-
-  const btnTrash = cardElement.querySelector(".cards__trash-btn");
-  btnTrash.addEventListener("click", (e) => {
-    trash(e.currentTarget);
-  });
-
-  const cardWindow = cardElement.querySelector(".cards__window");
-
-  cardImgElement.addEventListener("click", () => {
-    openPopup(cardWindow);
-  });
-
-  const btnCloseImagePopup = cardElement.querySelector(".cards__exit-btn");
-  btnCloseImagePopup.addEventListener("click", () => {
-    closePopup(cardWindow);
-  });
-
-  cardContainer.prepend(cardElement);
+  const card = new Card({ text: cardPlace, imageUrl: cardImage }, '#cards__template');
+  cardContainer.prepend(card.getCardElement());
 }
 
 //==========================================================================
@@ -229,5 +165,4 @@ function addCard(cardPlace, cardImage) {
 initialCards.forEach((card) => {
   addCard(card.name, card.link);
 });
-
 
