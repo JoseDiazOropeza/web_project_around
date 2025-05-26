@@ -3,30 +3,40 @@
 //==========================================================================
 // SECCIÓN DE VARIABLES GLOBALES Y TARJETAS INICIALES
 // ==========================================================================
+
+import Card from "./card.js";
+import FormValidator from "./formValidator.js";
+import {
+  openPopup,
+  closePopup,
+  handleClickOutside,
+  clearFormErrors,
+} from "./utils.js";
+
 const initialCards = [
   {
     name: "Grand Canyon National Park, AZ, USA",
-    link: "https://images.unsplash.com/photo-1495242024181-f22bd6b31f3f",
+    link: "../images/6.photo-tim-XC8upJgGYg0-unsplash.jpg",
   },
   {
     name: "Joshua Tree National Park, CA, USA",
-    link: "https://images.unsplash.com/photo-1601953758964-2dac9a22241d",
+    link: "../images/5.lindsay-doyle-s6fBJzk0AU0-unsplash.jpg",
   },
   {
     name: "Lake Union, WA, USA",
-    link: "https://images.unsplash.com/photo-1642827387986-b8594e28b5a9",
+    link: "../images/4.finn-w8ckd_hpM4s-unsplash.jpg",
   },
   {
     name: "Sequoia National Park, CA, USA",
-    link: "https://images.unsplash.com/photo-1562868996-8c589d115978",
+    link: "../images/3.javier-quesada-kKfxchkH3L4-unsplash.jpg",
   },
   {
     name: "Yellowstone National Park, WY, USA",
-    link: "https://images.unsplash.com/photo-1550347778-473e0058577c",
+    link: "../images/2.laila-skalsky-TzBdOQ-ek7M-unsplash.jpg",
   },
   {
     name: "Yosemite Valley, CA, USA",
-    link: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+    link: "../images/1.johannes-andersson-UCd78vfC8vU-unsplash.jpg",
   },
 ];
 
@@ -80,7 +90,7 @@ const validationConfig = {
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible"
+  errorClass: "popup__error_visible",
 };
 
 // --- Event Listeners para el envío de Formularios ---
@@ -101,11 +111,13 @@ document.addEventListener("keydown", (e) => {
 });
 
 // --- Inicializa la validación modular para todos los formularios ---
-const profileValidator = new FormValidator(validationConfig, formProfileElement);
+const profileValidator = new FormValidator(
+  validationConfig,
+  formProfileElement
+);
 profileValidator.enableValidation();
 const cardValidator = new FormValidator(validationConfig, formCardElement);
 cardValidator.enableValidation();
-
 
 //==========================================================================
 // SECCIÓN DE DEFINICIÓN DE FUNCIONES
@@ -147,13 +159,12 @@ function handleCardFormSubmit(evt) {
   }
 }
 
-import Card from './card.js';
-import FormValidator from './formValidator.js';
-import { openPopup, closePopup, handleClickOutside, clearFormErrors } from './utils.js';
-
 // --- Añade nueva tarjeta al DOM usando la clase Card ---
 function addCard(cardPlace, cardImage) {
-  const card = new Card({ text: cardPlace, imageUrl: cardImage }, '#cards__template');
+  const card = new Card(
+    { text: cardPlace, imageUrl: cardImage },
+    "#cards__template"
+  );
   cardContainer.prepend(card.getCardElement());
 }
 
@@ -165,4 +176,3 @@ function addCard(cardPlace, cardImage) {
 initialCards.forEach((card) => {
   addCard(card.name, card.link);
 });
-

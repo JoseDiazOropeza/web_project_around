@@ -10,6 +10,8 @@ class Card {
     this.#imageUrl = imageUrl;
     this.#templateSelector = templateSelector;
     this.#element = this.#getTemplate();
+    // Bind para mantener el contexto correcto en el event listener
+    this._boundHandleClickOutsidePopup = this.#handleClickOutsidePopup.bind(this);
     this.#setCardContent();
     this.#setEventListeners();
   }
@@ -80,13 +82,13 @@ class Card {
   // Abrir popup de imagen
   #handleOpenPopup(cardWindow) {
     cardWindow.classList.remove('popup_hidden');
-    cardWindow.addEventListener('click', this.#handleClickOutsidePopup);
+    cardWindow.addEventListener('click', this._boundHandleClickOutsidePopup);
   }
 
   // Cerrar popup de imagen
   #handleClosePopup(cardWindow) {
     cardWindow.classList.add('popup_hidden');
-    cardWindow.removeEventListener('click', this.#handleClickOutsidePopup);
+    cardWindow.removeEventListener('click', this._boundHandleClickOutsidePopup);
   }
 
   // Cerrar popup si se hace click fuera del contenido
