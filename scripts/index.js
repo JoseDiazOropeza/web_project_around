@@ -16,27 +16,27 @@ import {
 const initialCards = [
   {
     name: "Grand Canyon National Park, AZ, USA",
-    link: "../images/6.photo-tim-XC8upJgGYg0-unsplash.jpg",
+    link: "./images/6.photo-tim-XC8upJgGYg0-unsplash.jpg",
   },
   {
     name: "Joshua Tree National Park, CA, USA",
-    link: "../images/5.lindsay-doyle-s6fBJzk0AU0-unsplash.jpg",
+    link: "./images/5.lindsay-doyle-s6fBJzk0AU0-unsplash.jpg",
   },
   {
     name: "Lake Union, WA, USA",
-    link: "../images/4.finn-w8ckd_hpM4s-unsplash.jpg",
+    link: "./images/4.finn-w8ckd_hpM4s-unsplash.jpg",
   },
   {
     name: "Sequoia National Park, CA, USA",
-    link: "../images/3.javier-quesada-kKfxchkH3L4-unsplash.jpg",
+    link: "./images/3.javier-quesada-kKfxchkH3L4-unsplash.jpg",
   },
   {
     name: "Yellowstone National Park, WY, USA",
-    link: "../images/2.laila-skalsky-TzBdOQ-ek7M-unsplash.jpg",
+    link: "./images/2.laila-skalsky-TzBdOQ-ek7M-unsplash.jpg",
   },
   {
     name: "Yosemite Valley, CA, USA",
-    link: "../images/1.johannes-andersson-UCd78vfC8vU-unsplash.jpg",
+    link: "./images/1.johannes-andersson-UCd78vfC8vU-unsplash.jpg",
   },
 ];
 
