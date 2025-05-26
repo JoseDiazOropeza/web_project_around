@@ -4,4 +4,4 @@ Este proyecto es una página interactiva donde los usuarios pueden agregar, elim
 
 Mira el proyecto en vivo en: https://JoseDiazOropeza.github.io/web_project_around/
 
-© José Díaz Oropeza 2024
+© José Díaz Oropeza 2025
