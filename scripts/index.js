@@ -165,10 +165,15 @@ function handleCardFormSubmit(evt) {
 }
 
 // --- Añade nueva tarjeta al DOM usando la clase Card ---
+// Instancia global para el popup de imagen
+const popupWithImage = new PopupWithImage('.popup-image');
+popupWithImage.setEventListeners();
+
 function addCard(cardPlace, cardImage) {
   const card = new Card(
     { text: cardPlace, imageUrl: cardImage },
-    "#cards__template"
+    "#cards__template",
+    (data) => popupWithImage.open(data)
   );
   cardContainer.prepend(card.getCardElement());
 }

@@ -4,14 +4,14 @@ class Card {
   #imageUrl;
   #templateSelector;
   #element;
+  _handleCardClick;
 
-  constructor({ text, imageUrl }, templateSelector) {
+  constructor({ text, imageUrl }, templateSelector, handleCardClick) {
     this.#text = text;
     this.#imageUrl = imageUrl;
     this.#templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
     this.#element = this.#getTemplate();
-    // Bind para mantener el contexto correcto en el event listener
-    this._boundHandleClickOutsidePopup = this.#handleClickOutsidePopup.bind(this);
     this.#setCardContent();
     this.#setEventListeners();
   }
@@ -56,16 +56,14 @@ class Card {
     if (btnTrash) {
       btnTrash.addEventListener('click', this.#handleTrashClick.bind(this));
     }
-    // Popup de imagen
+    // Popup de imagen externo
     const img = this.#element.querySelector('.cards__image');
-    const cardWindow = this.#element.querySelector('.cards__window');
-    if (img && cardWindow) {
-      img.addEventListener('click', () => this.#handleOpenPopup(cardWindow));
-    }
-    // Cerrar popup de imagen
-    const btnClosePopup = this.#element.querySelector('.cards__exit-btn');
-    if (btnClosePopup && cardWindow) {
-      btnClosePopup.addEventListener('click', () => this.#handleClosePopup(cardWindow));
+    if (img) {
+      img.addEventListener('click', () => {
+        if (this._handleCardClick) {
+          this._handleCardClick({ name: this.#text, link: this.#imageUrl });
+        }
+      });
     }
   }
 
@@ -79,25 +77,6 @@ class Card {
     this.#element.remove();
   }
 
-  // Abrir popup de imagen
-  #handleOpenPopup(cardWindow) {
-    cardWindow.classList.remove('popup_hidden');
-    cardWindow.addEventListener('click', this._boundHandleClickOutsidePopup);
-  }
-
-  // Cerrar popup de imagen
-  #handleClosePopup(cardWindow) {
-    cardWindow.classList.add('popup_hidden');
-    cardWindow.removeEventListener('click', this._boundHandleClickOutsidePopup);
-  }
-
-  // Cerrar popup si se hace click fuera del contenido
-  #handleClickOutsidePopup(evt) {
-    if (evt.target === evt.currentTarget) {
-      evt.currentTarget.classList.add('popup_hidden');
-      evt.currentTarget.removeEventListener('click', this.#handleClickOutsidePopup);
-    }
-  }
 
   // Devuelve el elemento card listo para usar
   getCardElement() {
