@@ -1,0 +1,17 @@
+/* Seccion General */
+.header {
+  border-bottom: 1px solid #545454;
+  height: 74px;
+  margin: 45px 27px 0;
+  max-width: 880px;
+}
+
+@media only screen and (min-width: 934px) {
+  .header {
+    margin: 45px auto 0;
+  }
+}
+
+/* Seccion Logotipo */
+.header__logo {
+}

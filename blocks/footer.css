@@ -1,0 +1,28 @@
+.footer {
+  margin: 67px auto 60px;
+  max-width: 880px;
+  min-width: 320px;
+}
+
+.footer__copy {
+  color: #545454;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 908px) {
+  .footer {
+    margin: 67px 20px 60px;
+  }
+}
+
+@media only screen and (max-width: 619px) {
+  .footer__copy {
+    font-size: 16px;
+    text-align: center;
+  }
+  .footer {
+    margin: 50px 0 36px;
+  }
+}

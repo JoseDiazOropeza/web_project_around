@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Jose Diaz Oropeza" />
+    <title>Alrededor de los EE.UU.</title>
+    <link rel="stylesheet" href="./pages/index.css" />
+    <script type="module" src="./scripts/index.js"></script>
+  </head>
+  <body class="body">
+    <header class="header">
+      <img
+        src="./images/Logo-W.svg"
+        alt="Alrededor de los EE.UU. Logo"
+        class="header__logo"
+      />
+    </header>
+    <main>
+      <!-- Seccion de perfil del usuario -->
+      <section class="profile">
+        <img
+          class="profile__image"
+          src="./images/Profile-Img.jpg"
+          alt="profile image"
+        />
+        <div class="profile__text-container">
+          <h1 class="profile__name">Jose Diaz Oropeza</h1>
+          <button
+            class="button profile__edit-btn"
+            type="button"
+            aria-label="Editar perfil"
+          ></button>
+          <p class="profile__role">Web Developer</p>
+        </div>
+        <button
+          class="button profile__add-btn"
+          aria-label="Agregar tarjeta"
+          type="button"
+        ></button>
+      </section>
+
+      <!-- Seccion de Popup Perfil -->
+      <div class="popup-profile popup popup_hidden">
+        <div class="popup-profile__window">
+          <button class="popup-profile__exit-btn" type="reset" aria-label="">
+            <img
+              class="popup-profile__exit-icon"
+              src="images/Close-Icon.svg"
+              alt="exit icon button"
+            />
+          </button>
+
+          <form
+            class="popup-profile__form popup__form"
+            name="edit__form"
+            novalidate
+          >
+            <h2 class="popup-profile__form-header">Editar perfil</h2>
+            <input
+              type="text"
+              class="popup-profile__form-input popup-profile__form-input-name popup__input"
+              placeholder="Nombre"
+              name="form__name"
+              value="Jose Diaz Oropeza"
+              required=""
+              maxlength="40"
+              minlength="2"
+            />
+            <span class="popup__error"></span>
+
+            <input
+              type="text"
+              class="popup-profile__form-input popup-profile__form-input-about popup__input"
+              placeholder="Acerca de mí"
+              name="form__role"
+              value="Web Developer"
+              required=""
+              maxlength="200"
+              minlength="2"
+            /><span class="popup__error"></span>
+
+            <button
+              class="popup-profile__form-submit-btn popup__button"
+              type="submit"
+              disabled
+            >
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Seccion de Popup Tarjetas -->
+      <div class="popup-card popup popup_hidden">
+        <div class="popup-card__window">
+          <button class="popup-card__exit-btn" type="reset" aria-label="">
+            <img
+              class="popup-card__exit-icon"
+              src="images/Close-Icon.svg"
+              alt="exit icon button"
+            />
+          </button>
+
+          <form
+            class="popup-card__form popup__form"
+            name="edit__form"
+            novalidate
+          >
+            <h2 class="popup-card__form-header">Nuevo Lugar</h2>
+            <input
+              type="text"
+              class="popup-card__form-input popup-card__form-input-place popup__input"
+              placeholder="Título"
+              name="form__place"
+              value=""
+              required=""
+              minlength="2"
+            /><span class="popup__error"></span>
+
+            <input
+              type="url"
+              class="popup-card__form-input popup-card__form-input-url popup__input"
+              placeholder="Enlace a la imagen"
+              name="form__url"
+              value=""
+              required=""
+              minlength="2"
+            /><span class="popup__error"></span>
+
+            <button
+              class="popup-card__form-submit-btn popup__button"
+              type="submit"
+              disabled
+            >
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Seccion de Tarjetas -->
+      <section class="cards">
+        <ul class="cards__list">
+          <!-- Plantilla de Tarjeta -->
+          <template id="cards__template">
+            <li class="cards__card">
+              <img class="cards__image" />
+              <button class="button cards__trash-btn" type="button"></button>
+              <div class="cards__info">
+                <h2 class="cards__title"></h2>
+                <button class="button cards__like-btn" type="button"></button>
+              </div>
+
+              <div class="cards__window popup_hidden">
+                <figure class="cards__window-container">
+                  <img class="cards__window-img" src="" alt="" />
+                  <figcaption class="cards__window-caption"></figcaption>
+                  <button class="cards__exit-btn" type="reset" aria-label="">
+                    <img
+                      class="popup-card__exit-icon"
+                      src="./images/Close-Icon.svg"
+                      alt="exit icon button"
+                    />
+                  </button>
+                </figure>
+              </div>
+            </li>
+          </template>
+        </ul>
+      </section>
+
+      <!-- Seccion de footer -->
+      <footer class="footer">
+        <p class="footer__copy">&copy; 2025 Alrededor de los EE.UU.</p>
+      </footer>
+    </main>
+  </body>
+</html>
