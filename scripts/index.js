@@ -6,6 +6,11 @@
 
 import Card from "./card.js";
 import FormValidator from "./formValidator.js";
+import Section from "../components/section.js";
+import Popup from "../components/popup.js";
+import PopupWithImage from "../components/popupWithImage.js";
+import PopupWithForm from "../components/popupWithForm.js";
+import UserInfo from "../components/userInfo.js";
 import {
   openPopup,
   closePopup,
