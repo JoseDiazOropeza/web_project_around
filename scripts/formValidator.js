@@ -70,6 +70,11 @@ class FormValidator {
     this.#submitButton.disabled = hasInvalid;
     this.#submitButton.classList.toggle(this.#config.inactiveButtonClass, hasInvalid);
   }
+  // Método público para desactivar el botón de submit
+  disableSubmit() {
+    this.#submitButton.disabled = true;
+    this.#submitButton.classList.add(this.#config.inactiveButtonClass);
+  }
 }
 
 export default FormValidator;
