@@ -98,14 +98,13 @@ const validationConfig = {
   errorClass: "popup__error_visible",
 };
 
-// --- Event Listeners para el envío de Formularios ---
-// Se agregan con los métodos de las clases PopupWithForm
 
 // --- Inicializa la validación modular para todos los formularios ---
 const profileValidator = new FormValidator(
   validationConfig,
   formProfileElement
 );
+
 profileValidator.enableValidation();
 const cardValidator = new FormValidator(validationConfig, formCardElement);
 cardValidator.enableValidation();
@@ -164,10 +163,5 @@ btnCardOpenPopup.addEventListener('click', () => {
   formCardElement.reset();
   popupCardForm.open();
 });
-
-
-//==========================================================================
-// SECCIÓN DE INICIACIÓN DEL PROGRAMA
-// ==========================================================================
 
 

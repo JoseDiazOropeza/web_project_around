@@ -51,11 +51,13 @@ class Card {
     if (btnLike) {
       btnLike.addEventListener('click', this.#handleLikeClick.bind(this));
     }
-    // Trash (borrar)
+    
+    // Trash
     const btnTrash = this.#element.querySelector('.cards__trash-btn');
     if (btnTrash) {
       btnTrash.addEventListener('click', this.#handleTrashClick.bind(this));
     }
+
     // Popup de imagen externo
     const img = this.#element.querySelector('.cards__image');
     if (img) {

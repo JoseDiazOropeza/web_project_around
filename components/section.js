@@ -1,3 +1,4 @@
+
 // Clase Section para renderizar listas de elementos en un contenedor
 export default class Section {
   constructor({ items, renderer }, containerSelector) {
