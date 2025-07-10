@@ -6,6 +6,11 @@
 
 import Card from "./card.js";
 import FormValidator from "./formValidator.js";
+import Section from "../components/section.js";
+import Popup from "../components/popup.js";
+import PopupWithImage from "../components/popupWithImage.js";
+import PopupWithForm from "../components/popupWithForm.js";
+import UserInfo from "../components/userInfo.js";
 import {
   openPopup,
   closePopup,
@@ -94,21 +99,7 @@ const validationConfig = {
 };
 
 // --- Event Listeners para el envío de Formularios ---
-formProfileElement.addEventListener("submit", handleProfileFormSubmit);
-formCardElement.addEventListener("submit", handleCardFormSubmit);
-
-// --- Event Listener Global para la tecla "Escape" ---
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    // Selecciona cualquier popup abierto (perfil, tarjeta o imagen)
-    const openedPopup = document.querySelector(
-      ".popup:not(.popup_hidden), .popup-profile:not(.popup_hidden), .popup-card:not(.popup_hidden), .cards__window:not(.popup_hidden)"
-    );
-    if (openedPopup) {
-      closePopup(openedPopup);
-    }
-  }
-});
+// Se agregan con los métodos de las clases PopupWithForm
 
 // --- Inicializa la validación modular para todos los formularios ---
 const profileValidator = new FormValidator(
@@ -119,60 +110,64 @@ profileValidator.enableValidation();
 const cardValidator = new FormValidator(validationConfig, formCardElement);
 cardValidator.enableValidation();
 
-//==========================================================================
-// SECCIÓN DE DEFINICIÓN DE FUNCIONES
-// =========================================================================
+// Instancia UserInfo para manejar datos de usuario
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  jobSelector: '.profile__role'
+});
 
-// --- Modifica el estado de Like ---
-function like(target) {
-  target.classList.toggle("cards__like-btn--active");
-}
+// Instancia PopupWithForm para perfil
+const popupProfileForm = new PopupWithForm('.popup-profile', (data) => {
+  userInfo.setUserInfo({ name: data['form__name'], job: data['form__role'] });
+  popupProfileForm.close();
+});
+popupProfileForm.setEventListeners();
 
-// --- Elimina tarjeta ---
-function trash(target) {
-  target.closest(".cards__card").remove();
-}
+// Instancia PopupWithForm para nueva tarjeta
+const popupCardForm = new PopupWithForm('.popup-card', (data) => {
+  addCard(data['form__place'], data['form__url']);
+  popupCardForm.close();
+  cardValidator.disableSubmit();
+});
+popupCardForm.setEventListeners();
 
-// --- Opera el boton submit de Editar perfil ---
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-
-  if (formProfileElement.checkValidity()) {
-    const nameDOM = document.querySelector(".profile__name");
-    const jobDOM = document.querySelector(".profile__role");
-
-    nameDOM.textContent = nameInput.value;
-    jobDOM.textContent = jobInput.value;
-
-    closePopup(popupProfile);
-  }
-}
-
-// --- Opera el boton submit de Nuevo Lugar ---
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-
-  if (formCardElement.checkValidity()) {
-    addCard(placeInput.value, urlInput.value);
-    formCardElement.reset();
-    closePopup(popupCard);
-  }
-}
+// Instancia global para el popup de imagen
+const popupWithImage = new PopupWithImage('.popup-image');
+popupWithImage.setEventListeners();
 
 // --- Añade nueva tarjeta al DOM usando la clase Card ---
 function addCard(cardPlace, cardImage) {
   const card = new Card(
     { text: cardPlace, imageUrl: cardImage },
-    "#cards__template"
+    "#cards__template",
+    (data) => popupWithImage.open(data)
   );
   cardContainer.prepend(card.getCardElement());
 }
+
+// --- Renderizar las tarjetas iniciales usando Section ---
+const cardSection = new Section({
+  items: initialCards,
+  renderer: (item) => addCard(item.name, item.link)
+}, '.cards__list');
+cardSection.renderItems();
+
+// --- Listeners para abrir popups ---
+btnProfileOpenPopup.addEventListener('click', () => {
+  const user = userInfo.getUserInfo();
+  formProfileElement.elements['form__name'].value = user.name;
+  formProfileElement.elements['form__role'].value = user.job;
+  popupProfileForm.open();
+});
+
+btnCardOpenPopup.addEventListener('click', () => {
+  formCardElement.reset();
+  popupCardForm.open();
+});
+
 
 //==========================================================================
 // SECCIÓN DE INICIACIÓN DEL PROGRAMA
 // ==========================================================================
 
-// --- Ejecución Inicial ---
-initialCards.forEach((card) => {
-  addCard(card.name, card.link);
-});
+
